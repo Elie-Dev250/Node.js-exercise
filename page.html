@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form id="myform">
+        <h2>Register New workers</h2>
+        <input type="text" id="name" placeholder="Enter username" required />
+        <input type="password" id="password" placeholder="Enter password" required />
+        <button type="submit">Submit</button>
+      </form>
+    
+      <p id="message"></p>
+
+      <script>
+        document.getElementById("myform").addEventListener("submit", async function (e) {
+          e.preventDefault();
+    
+          const username = document.getElementById("name").value;
+          const password = document.getElementById("password").value;
+    
+          try {
+            const response = await fetch("http://localhost:5000/posting", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({ username, password })
+            });
+    
+            const data = await response.text();
+            document.getElementById("message").textContent = data;
+            document.getElementById("myform").reset();
+          } catch (err) {
+            document.getElementById("message").textContent = "Error: " + err;
+          }
+        });
+      </script>
+</body>
+</html>
