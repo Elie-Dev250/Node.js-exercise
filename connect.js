@@ -68,6 +68,20 @@ app.get('/fetchbyid/:id',(req,res)=>{
     })
 })
 
+app.put('/update/:id',(req,res)=>{
+    const id=req.params.id;
+    const name=req.body.name;
+    const updatequery="UPDATE doctor SET name=$1 WHERE id=$2"
+    connection.query(updatequery,[name,id],(error,result)=>{
+        if(error){
+            res.send(error)
+        }
+        else{
+            res.send("updated")
+            console.log(result)
+        }
+    })
+})
 
 app.listen(3000,()=>{
     console.log("server is running...")
